@@ -1,4 +1,4 @@
-def scraper(request):
+def scraper(jobTitle: str):
     """
     return a list of jobs as each jop as a json 'dictionary'
     """

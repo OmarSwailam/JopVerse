@@ -11,6 +11,7 @@ class Job(models.Model):
     experience = models.CharField(null=True, blank=True, max_length=32)
     website = models.CharField(null=True, blank=True, max_length=64)
     websiteIcon = models.ImageField(null=True, blank=True, upload_to='company/logo-social.png')
+    creationTime = models.DateTimeField(auto_now_add=True, null=True, blank=True,)
 
     def __str__(self) -> str:
         return f'{self.jobTitle}'
