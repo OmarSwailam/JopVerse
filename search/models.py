@@ -13,6 +13,8 @@ class Job(models.Model):
     websiteIcon = models.ImageField(null=True, blank=True, upload_to='company/logo-social.png')
     creationTime = models.DateTimeField(auto_now_add=True, null=True, blank=True,)
 
+
+
     def __str__(self) -> str:
         return f'{self.jobTitle}'
 

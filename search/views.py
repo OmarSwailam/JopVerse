@@ -1,20 +1,47 @@
-from django.shortcuts import render, HttpResponse, redirect
+from django.shortcuts import render
 from django.http.response import JsonResponse
+from django.core import serializers
+from rest_framework.response import Response
 from .models import Job
 from .serializers import JobSerializer
 from .utils import scraper
+from django.http import HttpResponse
 
 def search(request):
-    if request.method == 'POST':
-        jobTitle = request.POST['search']
+    jobTitle = ''
+    if request.GET.get('q'):
+        jobTitle = request.GET.get('q')
         jobs = scraper(jobTitle=jobTitle)
-        serializer = JobSerializer(data=jobs, many=True)
-        if serializer.is_valid():
-            serializer.save()
-            return redirect('search')
+        for job in jobs:
+            try:
+                obj = Job.objects.get(
+                    jobTitle=job['jobTitle'],
+                    jobUrl=job['jobUrl'],
+                    companyName=job['companyName'],
+                    companyImage=job['companyImage'],
+                    salary=job['salary'],
+                    isRemote=job['isRemote'],
+                    jobType=job['jobType'],
+                    experience=job['experience'],
+                    website=job['website'],
+                    websiteIcon=job['websiteIcon'],
+                    )
+            except Job.DoesNotExist:
+                obj = Job(
+                    jobTitle=job['jobTitle'],
+                    jobUrl=job['jobUrl'],
+                    companyName=job['companyName'],
+                    companyImage=job['companyImage'],
+                    salary=job['salary'],
+                    isRemote=job['isRemote'],
+                    jobType=job['jobType'],
+                    experience=job['experience'],
+                    website=job['website'],
+                    websiteIcon=job['websiteIcon'],
+                    )
+                obj.save()
 
-    jobs = Job.objects.all()
-    serializer = JobSerializer(jobs, many=True)
-    return render(request, 'search/search.html', {
-        'data': JsonResponse(serializer.data, safe=False)
-        })
+    data = Job.objects.filter(jobTitle__icontains=jobTitle)
+    response = list(data.values())
+    json = JsonResponse(response, safe=False)
+    return json
