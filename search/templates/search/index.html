@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search</title>
+</head>
+<body>
+    <form id="searchForm" action="">
+        <input id="q" type="text" name="q">
+        <input type="submit" value="search">
+    </form>
+    <hr>
+
+    <div id="content">
+        <table id="jobsTable">
+            <thead>
+                <td>Title</td>
+                <td>Company</td>
+            </thead>
+            <tbody id="jobs">
+
+            </tbody>
+        </table>
+    </div>
+</body>
+<script src="{% static 'js/main.js' %}"></script>
+</html>

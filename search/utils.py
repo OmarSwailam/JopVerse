@@ -4,8 +4,8 @@ def scraper(jobTitle: str):
     """
     dummyData = [
         {
-            'jobTitle': 'backend',
-            'jobUrl': 'link',
+            'jobTitle': 'frontend',
+            'jobUrl': 'link2',
             'companyName': 'amazon',
             'companyImage': None,
             'salary': None,
